@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet, Button, Alert } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import tw from 'twrnc';
 
 export default function App() {
@@ -16,23 +17,26 @@ export default function App() {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    Alert.alert("By Astronauta", data, [{ text: "OK" }]);
   };
 
-  if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
-  }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
-  }
+  if (hasPermission === null) return <Text>Requesting for camera permission</Text>;
+
+  if (hasPermission === false) return <Text>No access to camera</Text>
 
   return (
-    <View style={tw`flex-1 items-center justify-center bg-purple-900`}>
+    <View style={tw`flex-1 items-center justify-center bg-black`}>
+      <View>
+        <Text style={tw`text-white text-2xl z-10 p-5 rounded-[30px] bg-[#00a ]`}>Scan QR Code</Text>
+      </View>
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
-      {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+      {scanned ?
+        <Button title={'Ativar Scanner'} onPress={() => setScanned(false)} /> :
+        <Icon name="scan-helper" color='#FFF' size={300} />
+      }
     </View>
   );
 }
