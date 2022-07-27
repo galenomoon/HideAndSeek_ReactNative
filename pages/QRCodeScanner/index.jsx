@@ -13,8 +13,10 @@ import tw from 'twrnc';
 
 export default function QRCodeScanner({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
-  const [scanned, setScanned] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [scanned, setScanned] = useState(false);
+  const [qrCodeData, setQRCodeData] = useState(false);
+  const [balloonList, setBalloonList] = useState([])
 
   useEffect(() => {
     (async () => {
@@ -24,12 +26,16 @@ export default function QRCodeScanner({ navigation }) {
   }, []);
 
   const handleBarCodeScanned = ({ type, data }) => {
-    let qrCodeData = (data.indexOf("http" || "exp") && -1) && (JSON.parse(data))
-    qrCodeData?.id ? [setModalVisible(true), setScanned(true)] : Alert.alert("Acho que isso não é pra você")
+    let list = balloonList
+    let currentData = (data.indexOf("http") && -1 && data.indexOf('exp') && -1) && (JSON.parse(data))
+    currentData?.id ? [setQRCodeData(currentData), setModalVisible(true), setScanned(true)] : [Alert.alert(
+      "Essa mensagem não foi enviada pelo Seu Astronauta",
+      `Mas ele diz: ${data}`,
+      [{ text: "sair", onPress: () => setScanned(false) }]
+    ), setScanned(true)]
   };
 
   if (hasPermission === null) return <Text style={tw`font-bold text-white text-lg`}>Pedindo Permissão pra usar a câmera</Text>;
-
   if (hasPermission === false) return <Text style={tw`font-bold text-white text-lg`}>tem q permitir :( </Text>
 
   return (
@@ -39,9 +45,9 @@ export default function QRCodeScanner({ navigation }) {
           <TO onPress={() => navigation.navigate('Start')} style={tw`flex flex-row items-center p-2`}>
             <Icon name="arrow-left" size={50} color="#FFF" />
           </TO>
-          <TO onPress={() =>setModalVisible(true)} style={tw`flex flex-row items-center`}>
+          <TO onPress={() => setModalVisible(true)} style={tw`flex flex-row items-center`}>
             <Icon name="balloon" size={70} color="#FFF" />
-            <Text style={tw`text-white text-[30px]`}>0/3</Text>
+            <Text style={tw`text-white text-[30px]`}>{balloonList.length}/3</Text>
           </TO>
         </View>
         <BarCodeScanner
@@ -51,7 +57,7 @@ export default function QRCodeScanner({ navigation }) {
         />
         {scanned && modalVisible ? <View style={tw`absolute z-50 bg-black opacity-70 w-full h-full`} /> : <Icon name="scan-helper" color='#FFF' size={300} />}
       </View>
-      <MessageModal closeModal={() => [setScanned(false), setModalVisible(false)]} modalVisible={modalVisible} />
+      <MessageModal setBalloonList={setBalloonList} balloonList={balloonList} qrCodeData={qrCodeData} closeModal={() => [setScanned(false), setModalVisible(false)]} modalVisible={modalVisible} />
     </>
   );
 }
