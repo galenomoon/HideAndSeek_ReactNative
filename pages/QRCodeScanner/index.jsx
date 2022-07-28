@@ -25,10 +25,25 @@ export default function QRCodeScanner({ navigation }) {
     })();
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }) => {
+  const balloonFound = (data) => {
     let list = balloonList
+    const isAlreadyFound = list.some(obj => obj.id === data.id)
+
+    !isAlreadyFound && [list.push(data), setBalloonList(list)]
+    setScanned(true)
+    Alert.alert(
+      isAlreadyFound ? "Você já encontrou esse balão" : "Novo Balão Encontrado!",
+      isAlreadyFound ? "Deseja ler novamente?" : "Seu Astronauta tem uma mensagem pra você:",
+      [
+        { text: "abrir", onPress: () => [setQRCodeData(data), setModalVisible(true)] },
+        isAlreadyFound && { text: "cancelar", onPress: () => [setScanned(false)] }
+      ])
+
+  }
+
+  const handleBarCodeScanned = ({ type, data }) => {
     let currentData = (data.indexOf("http") && -1 && data.indexOf('exp') && -1) && (JSON.parse(data))
-    currentData?.id ? [setQRCodeData(currentData), setModalVisible(true), setScanned(true)] : [Alert.alert(
+    currentData?.id ? balloonFound(currentData) : [Alert.alert(
       "Essa mensagem não foi enviada pelo Seu Astronauta",
       `Mas ele diz: ${data}`,
       [{ text: "sair", onPress: () => setScanned(false) }]

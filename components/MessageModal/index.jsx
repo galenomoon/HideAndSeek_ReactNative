@@ -1,33 +1,23 @@
-import { Modal, StyleSheet, Text, Image, TouchableOpacity as TO, View, Alert } from "react-native";
+import { Modal, StyleSheet, Text, Image, TouchableOpacity as TO, View } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import tw from "twrnc";
 
-const MessageModal = ({ modalVisible, closeModal, qrCodeData, setBalloonList, balloonList }) => {
+const MessageModal = ({ modalVisible, closeModal, qrCodeData }) => {
 
-  // Expected Obj
-  // {
-  //   "id":1,
-  //   "message": "Test Message!!"
-  // }
-
-  const newBalloon = () => {
-    let list = balloonList
-    const isAlreadyFound = list.some(obj => obj.id === qrCodeData.id)
-    isAlreadyFound ? Alert.alert("Balão já encontrado") : list.push(qrCodeData)
-    setBalloonList(list)
-    closeModal()
-  }
 
   return (
     <Modal animationType="slide" transparent={true} visible={modalVisible}>
       <View style={tw`flex-1 justify-center items-center`}>
         <View style={tw`w-[100%] h-[100%] justify-center items-center rounded-2xl`}>
-            <Icon name="close" style={tw`absolute z-53 m-1 top-45 right-7`} color={'#333'} size={40} onPress={() => newBalloon()} />
+          <TO style={tw`z-53 absolute top-45 right-7`} onPress={() => closeModal()}>
+            <Icon name="close" style={tw` z-53 m-1`} color={'#333'} size={40}  />
+          </TO>
           <View style={tw`bg-white w-[90%] h-[60%] rounded-lg overflow-hidden p-2`}>
             <View style={tw`flex-2 overflow-hidden`}>
               <Image style={tw`w-full h-full rounded-xl`} source={{ uri: qrCodeData?.img_url }} />
             </View>
             <View style={tw`flex-1 m-2`}>
+              <Text style={tw`text-2xl font-bold`}>{qrCodeData?.title}</Text>
               <Text style={tw`text-xl`}>{qrCodeData?.message}</Text>
             </View>
           </View>
