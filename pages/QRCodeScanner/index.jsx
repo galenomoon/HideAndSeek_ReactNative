@@ -10,13 +10,16 @@ import MessageModal from '../../components/MessageModal';
 // Styles
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import tw from 'twrnc';
+import BalloonListModal from '../../components/BalloonListModal';
 
 export default function QRCodeScanner({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessageVisible, setMessageModalVisible] = useState(false);
+  const [modalBalloonListVisible, setBalloonListModalVisible] = useState(false);
   const [scanned, setScanned] = useState(false);
   const [qrCodeData, setQRCodeData] = useState(false);
   const [balloonList, setBalloonList] = useState([])
+  const hasModalOpened = modalMessageVisible || modalBalloonListVisible
 
   useEffect(() => {
     (async () => {
@@ -35,7 +38,7 @@ export default function QRCodeScanner({ navigation }) {
       isAlreadyFound ? "Você já encontrou esse balão" : "Novo Balão Encontrado!",
       isAlreadyFound ? "Deseja ler novamente?" : "Seu Astronauta tem uma mensagem pra você:",
       [
-        { text: "abrir", onPress: () => [setQRCodeData(data), setModalVisible(true)] },
+        { text: "abrir", onPress: () => [setQRCodeData(data), setMessageModalVisible(true)] },
         isAlreadyFound && { text: "cancelar", onPress: () => [setScanned(false)] }
       ])
 
@@ -60,7 +63,7 @@ export default function QRCodeScanner({ navigation }) {
           <TO onPress={() => navigation.navigate('Start')} style={tw`flex flex-row items-center p-2`}>
             <Icon name="arrow-left" size={50} color="#FFF" />
           </TO>
-          <TO onPress={() => setModalVisible(true)} style={tw`flex flex-row items-center`}>
+          <TO onPress={() => [setBalloonListModalVisible(true), setScanned(true)]} style={tw`flex flex-row items-center`}>
             <Icon name="balloon" size={70} color="#FFF" />
             <Text style={tw`text-white text-[30px]`}>{balloonList.length}/3</Text>
           </TO>
@@ -70,9 +73,10 @@ export default function QRCodeScanner({ navigation }) {
           style={tw`absolute w-[125%] h-[125%]`}
           barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
         />
-        {scanned && modalVisible ? <View style={tw`absolute z-50 bg-black opacity-70 w-full h-full`} /> : <Icon name="scan-helper" color='#FFF' size={300} />}
+        {(hasModalOpened && scanned) ? <View style={tw`absolute z-50 bg-black opacity-70 w-full h-full`} /> : <Icon name="scan-helper" color='#FFF' size={300} />}
       </View>
-      <MessageModal setBalloonList={setBalloonList} balloonList={balloonList} qrCodeData={qrCodeData} closeModal={() => [setScanned(false), setModalVisible(false)]} modalVisible={modalVisible} />
+      <BalloonListModal setQRCodeData={setQRCodeData} setScanned={()=>setScanned(false)} setMessageModalVisible={setMessageModalVisible} balloonList={balloonList} closeModal={() => [setScanned(false), setBalloonListModalVisible(false)]} modalVisible={modalBalloonListVisible} />
+      <MessageModal qrCodeData={qrCodeData} closeModal={() => [setScanned(false), setMessageModalVisible(false)]} modalVisible={modalMessageVisible} />
     </>
   );
 }
