@@ -14,7 +14,7 @@ const BalloonListModal = ({ modalVisible, closeModal, balloonList, setMessageMod
     <Modal animationType="slide" transparent={true} visible={modalVisible}>
       <View style={tw`flex-1 justify-center items-center`}>
         <View style={tw`w-[100%] h-[100%] justify-center items-center rounded-2xl`}>
-          {balloonList.length > 0 ?
+          {balloonList?.length > 0 ?
             <View style={tw`bg-white w-[90%] h-[73%] items-center justify-center rounded-lg overflow-hidden p-2`}>
               <View style={tw`flex-1 items-end justify-between w-full`}>
                 <TO style={tw`z-53`} onPress={() => closeModal()}>

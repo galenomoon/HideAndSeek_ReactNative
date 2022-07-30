@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "esconde-esconde",
-    "slug": "esconde-esconde",
+    "name": "à 130km de Você",
+    "slug": "a-130km-de-Voce",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#c971eb"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -23,8 +23,9 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+        "backgroundColor": "#c971eb"
+      },
+      "package": "com.galeno.escondeesconde"
     },
     "web": {
       "favicon": "./assets/favicon.png"

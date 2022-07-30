@@ -19,24 +19,24 @@ export default function QRCodeScanner({ navigation }) {
   const [modalMessageVisible, setMessageModalVisible] = useState(false);
   const [modalBalloonListVisible, setBalloonListModalVisible] = useState(false);
   const [balloonList, setBalloonList] = useState([])
-  const [modalTutorial, setModalTutorial] = useState(balloonList.length === 0)
+  const [modalTutorial, setModalTutorial] = useState(balloonList?.length === 0)
   const [scanned, setScanned] = useState(false);
   const [qrCodeData, setQRCodeData] = useState(false);
   const hasModalOpened = modalMessageVisible || modalBalloonListVisible || modalTutorial
 
   useEffect(() => {
-    AsyncStorage.getItem("balloonList").then(value => setBalloonList(JSON.parse(value)));
+    AsyncStorage.getItem("balloonList").then(value => value ? setBalloonList(JSON.parse(value)) : AsyncStorage.setItem("balloonList", JSON.stringify([]))).catch(() => AsyncStorage.setItem("balloonList", JSON.stringify([])));
     (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      const { status } = await BarCodeScanner?.requestPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
   }, []);
 
   const balloonFound = (data) => {
     let list = balloonList
-    const isAlreadyFound = list.some(obj => obj.id === data.id)
+    const isAlreadyFound = balloonList.some(obj => obj.id === data.id)
 
-    !isAlreadyFound && [list.push(data), setBalloonList(list), AsyncStorage.setItem("balloonList", JSON.stringify(list))]
+    !isAlreadyFound && [list?.push(data), setBalloonList(list), AsyncStorage.setItem("balloonList", JSON.stringify(list))]
     setScanned(true)
     Alert.alert(
       isAlreadyFound ? "Você já encontrou esse balão" : "Novo Balão Encontrado!",
@@ -49,7 +49,7 @@ export default function QRCodeScanner({ navigation }) {
   }
 
   const handleBarCodeScanned = ({ data }) => {
-    let currentData = (data.indexOf("http") && -1 && data.indexOf('exp') && -1) && (JSON.parse(data))
+    let currentData = (data?.indexOf("http") && -1 && data?.indexOf('exp') && -1) && (JSON.parse(data))
     currentData?.id ? balloonFound(currentData) : [Alert.alert(
       "Essa mensagem não foi enviada pelo Seu Astronauta",
       `Mas ele diz: ${data}`,
@@ -68,7 +68,7 @@ export default function QRCodeScanner({ navigation }) {
             <Icon name="arrow-left" size={50} color="#FFF" />
           </TO>
           <TO
-            onLongPress={() => balloonList.length > 0 &&
+            onLongPress={() => balloonList?.length > 0 &&
               [Alert.alert(
                 "Eiei, cuidado meu bom 🤨", "Você quer zerar o histórico de balões encontrados?",
                 [
@@ -82,7 +82,7 @@ export default function QRCodeScanner({ navigation }) {
           >
             <View style={tw`flex flex-row items-center justify-center`}>
               <Icon name="balloon" size={70} color="#FFF" />
-              <Text style={tw`text-white text-4xl`}>{balloonList.length}/3</Text>
+              <Text style={tw`text-white text-4xl`}>{balloonList ? balloonList.length : 0}/3</Text>
             </View>
           </TO>
         </View>
@@ -93,7 +93,7 @@ export default function QRCodeScanner({ navigation }) {
         />
         {(hasModalOpened && scanned) ? <View style={tw`absolute z-50 bg-black opacity-60 w-full h-full`} /> : <Icon name="scan-helper" color='#FFF' size={300} />}
       </View>
-      <Tutorial modalVisible={modalTutorial} openBalloonList={()=> [setBalloonListModalVisible(true), setScanned(true)]} closeModal={() => [setScanned(false), setModalTutorial(false)]}/>
+      <Tutorial modalVisible={modalTutorial} openBalloonList={() => [setBalloonListModalVisible(true), setScanned(true)]} closeModal={() => [setScanned(false), setModalTutorial(false)]} />
       <BalloonListModal setQRCodeData={setQRCodeData} setScannedTrue={() => setScanned(true)} setMessageModalVisible={setMessageModalVisible} balloonList={balloonList} closeModal={() => [setScanned(false), setBalloonListModalVisible(false)]} modalVisible={modalBalloonListVisible} />
       <MessageModal qrCodeData={qrCodeData} closeModal={() => [setScanned(false), setMessageModalVisible(false)]} modalVisible={modalMessageVisible} />
     </>
