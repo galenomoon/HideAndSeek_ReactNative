@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, TouchableOpacity as TO, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // barCode
 import { BarCodeScanner } from 'expo-barcode-scanner';
@@ -22,6 +23,7 @@ export default function QRCodeScanner({ navigation }) {
   const hasModalOpened = modalMessageVisible || modalBalloonListVisible
 
   useEffect(() => {
+    AsyncStorage.getItem("balloonList").then(value => setBalloonList(JSON.parse(value)));
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === 'granted');
@@ -32,7 +34,7 @@ export default function QRCodeScanner({ navigation }) {
     let list = balloonList
     const isAlreadyFound = list.some(obj => obj.id === data.id)
 
-    !isAlreadyFound && [list.push(data), setBalloonList(list)]
+    !isAlreadyFound && [list.push(data), setBalloonList(list), AsyncStorage.setItem("balloonList", JSON.stringify(list))]
     setScanned(true)
     Alert.alert(
       isAlreadyFound ? "Você já encontrou esse balão" : "Novo Balão Encontrado!",
@@ -44,7 +46,7 @@ export default function QRCodeScanner({ navigation }) {
 
   }
 
-  const handleBarCodeScanned = ({ type, data }) => {
+  const handleBarCodeScanned = ({ data }) => {
     let currentData = (data.indexOf("http") && -1 && data.indexOf('exp') && -1) && (JSON.parse(data))
     currentData?.id ? balloonFound(currentData) : [Alert.alert(
       "Essa mensagem não foi enviada pelo Seu Astronauta",
@@ -68,7 +70,7 @@ export default function QRCodeScanner({ navigation }) {
               [Alert.alert(
                 "Eiei, cuidado meu bom 🤨", "Você quer zerar o histórico de balões encontrados?",
                 [
-                  { text: "sim", onPress: () => [setBalloonList([]), setScanned(false)] },
+                  { text: "sim", onPress: () => [setBalloonList([]), setScanned(false), AsyncStorage.setItem("balloonList", JSON.stringify([])), navigation.navigate('Start')] },
                   { text: "cancelar", onPress: () => setScanned(false) }
                 ]
               ), setScanned(true)]
@@ -92,4 +94,3 @@ export default function QRCodeScanner({ navigation }) {
     </>
   );
 }
-
