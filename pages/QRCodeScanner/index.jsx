@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, TouchableOpacity as TO, Alert } from 'react-native';
 
-// BarCode
+// barCode
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
 //components
 import MessageModal from '../../components/MessageModal';
+import BalloonListModal from '../../components/BalloonListModal';
 
-// Styles
+// styles
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import tw from 'twrnc';
-import BalloonListModal from '../../components/BalloonListModal';
 
 export default function QRCodeScanner({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
@@ -75,7 +75,7 @@ export default function QRCodeScanner({ navigation }) {
         />
         {(hasModalOpened && scanned) ? <View style={tw`absolute z-50 bg-black opacity-70 w-full h-full`} /> : <Icon name="scan-helper" color='#FFF' size={300} />}
       </View>
-      <BalloonListModal setQRCodeData={setQRCodeData} setScanned={()=>setScanned(false)} setMessageModalVisible={setMessageModalVisible} balloonList={balloonList} closeModal={() => [setScanned(false), setBalloonListModalVisible(false)]} modalVisible={modalBalloonListVisible} />
+      <BalloonListModal setQRCodeData={setQRCodeData} setScannedTrue={()=> setScanned(true)} setMessageModalVisible={setMessageModalVisible} balloonList={balloonList} closeModal={() => [setScanned(false), setBalloonListModalVisible(false)]} modalVisible={modalBalloonListVisible} />
       <MessageModal qrCodeData={qrCodeData} closeModal={() => [setScanned(false), setMessageModalVisible(false)]} modalVisible={modalMessageVisible} />
     </>
   );

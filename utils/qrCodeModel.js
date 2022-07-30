@@ -9,8 +9,9 @@ let modelList =
     {
       "id": 2,
       "title": "Espero que tenha gostado do docinho 🤭",
-      "message": "Agora a frase mais clichê que eu poderia pensar \"Vá para o lugar onde nos vimos pela primeira vez\", kkkk. Relaxa, não vou te fazer andar sem rumo pela PG kkk, clica nesse botãozinho aqui que você já vai ser redirecionada pro uber com o endereço certinho, quem sabe lá você encontre o último balão, te amo <3",
-      "img_url": "https://instagram.fssz3-1.fna.fbcdn.net/v/t51.2885-15/240481315_533268347766971_580683814768857931_n.jpg?stp=dst-jpg_e35&cb=2d435ae8-d7f9aae8&_nc_ht=instagram.fssz3-1.fna.fbcdn.net&_nc_cat=111&_nc_ohc=9iZgBVyRE-MAX8MJWp3&edm=ALQROFkBAAAA&ccb=7-5&ig_cache_key=MjY0NjkzMDcyNDQwMTMyNTgwNg%3D%3D.2-ccb7-5&oh=00_AT9czoyI2NjoWhc5ADwEdYvjqj_HXQjl3Yn8MhpkSHRAsQ&oe=62E71F6D&_nc_sid=30a2ef"
+      "message": "Agora a frase mais clichê que eu poderia pensar \"Vá para o lugar onde nos vimos pela primeira vez\", kkkk. Relaxa, não vou te fazer andar sem rumo pela PG kkk, clica nesse botãozinho aqui e bem, quem sabe ele leve você até o último balão, te amo <3",
+      "img_url": "https://instagram.fssz3-1.fna.fbcdn.net/v/t51.2885-15/240481315_533268347766971_580683814768857931_n.jpg?stp=dst-jpg_e35&cb=2d435ae8-d7f9aae8&_nc_ht=instagram.fssz3-1.fna.fbcdn.net&_nc_cat=111&_nc_ohc=9iZgBVyRE-MAX8MJWp3&edm=ALQROFkBAAAA&ccb=7-5&ig_cache_key=MjY0NjkzMDcyNDQwMTMyNTgwNg%3D%3D.2-ccb7-5&oh=00_AT9czoyI2NjoWhc5ADwEdYvjqj_HXQjl3Yn8MhpkSHRAsQ&oe=62E71F6D&_nc_sid=30a2ef",
+      "btn_link": "https://encurtador.com.br/htuLP"
     },
     {
       "id": 3,

@@ -2,12 +2,12 @@ import { Modal, Text, Image, TouchableOpacity as TO, View, FlatList } from "reac
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import tw from "twrnc";
 
-const BalloonListModal = ({ modalVisible, closeModal, balloonList, setMessageModalVisible, setQRCodeData, setScanned }) => {
+const BalloonListModal = ({ modalVisible, closeModal, balloonList, setMessageModalVisible, setQRCodeData, setScannedTrue }) => {
 
   const itemList = (item) => (
-    <TO style={tw`flex-row items-center bg-gray-100 p-3 rounded-2xl mb-2`} onPress={() => [setScanned(),setMessageModalVisible(true), setQRCodeData(item)]}>
+    <TO style={tw`flex-row items-center bg-gray-100 p-3 rounded-2xl mb-2`} onPress={() => [closeModal(), setMessageModalVisible(true), setQRCodeData(item), setScannedTrue()]}>
       <Image style={tw`w-20 h-20 rounded-xl bg-purple-800`} source={{ uri: item?.img_url }} />
-      <Text style={tw`text-xl font-bold m-2 z-50`}>#{item?.id} - Balloon</Text>
+      <Text style={tw`text-xl font-bold m-3 z-50`}>Balão #{item?.id}</Text>
     </TO>
   )
 
