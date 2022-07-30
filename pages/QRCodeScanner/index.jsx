@@ -63,7 +63,19 @@ export default function QRCodeScanner({ navigation }) {
           <TO onPress={() => navigation.navigate('Start')} style={tw`flex flex-row items-center p-2`}>
             <Icon name="arrow-left" size={50} color="#FFF" />
           </TO>
-          <TO onPress={() => [setBalloonListModalVisible(true), setScanned(true)]} style={tw`flex flex-row items-center`}>
+          <TO
+            onLongPress={() => balloonList.length > 0 &&
+              [Alert.alert(
+                "Eiei, cuidado meu bom 🤨", "Você quer zerar o histórico de balões encontrados?",
+                [
+                  { text: "sim", onPress: () => [setBalloonList([]), setScanned(false)] },
+                  { text: "cancelar", onPress: () => setScanned(false) }
+                ]
+              ), setScanned(true)]
+            }
+            delayLongPress={1000}
+            onPress={() => [setBalloonListModalVisible(true), setScanned(true)]}
+            style={tw`flex flex-row items-center`}>
             <Icon name="balloon" size={70} color="#FFF" />
             <Text style={tw`text-white text-[30px]`}>{balloonList.length}/3</Text>
           </TO>
@@ -75,7 +87,7 @@ export default function QRCodeScanner({ navigation }) {
         />
         {(hasModalOpened && scanned) ? <View style={tw`absolute z-50 bg-black opacity-70 w-full h-full`} /> : <Icon name="scan-helper" color='#FFF' size={300} />}
       </View>
-      <BalloonListModal setQRCodeData={setQRCodeData} setScannedTrue={()=> setScanned(true)} setMessageModalVisible={setMessageModalVisible} balloonList={balloonList} closeModal={() => [setScanned(false), setBalloonListModalVisible(false)]} modalVisible={modalBalloonListVisible} />
+      <BalloonListModal setQRCodeData={setQRCodeData} setScannedTrue={() => setScanned(true)} setMessageModalVisible={setMessageModalVisible} balloonList={balloonList} closeModal={() => [setScanned(false), setBalloonListModalVisible(false)]} modalVisible={modalBalloonListVisible} />
       <MessageModal qrCodeData={qrCodeData} closeModal={() => [setScanned(false), setMessageModalVisible(false)]} modalVisible={modalMessageVisible} />
     </>
   );
