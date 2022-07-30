@@ -8,6 +8,7 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 //components
 import MessageModal from '../../components/MessageModal';
 import BalloonListModal from '../../components/BalloonListModal';
+import Tutorial from '../../components/Tutorial'
 
 // styles
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -17,10 +18,11 @@ export default function QRCodeScanner({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [modalMessageVisible, setMessageModalVisible] = useState(false);
   const [modalBalloonListVisible, setBalloonListModalVisible] = useState(false);
+  const [balloonList, setBalloonList] = useState([])
+  const [modalTutorial, setModalTutorial] = useState(balloonList.length === 0)
   const [scanned, setScanned] = useState(false);
   const [qrCodeData, setQRCodeData] = useState(false);
-  const [balloonList, setBalloonList] = useState([])
-  const hasModalOpened = modalMessageVisible || modalBalloonListVisible
+  const hasModalOpened = modalMessageVisible || modalBalloonListVisible || modalTutorial
 
   useEffect(() => {
     AsyncStorage.getItem("balloonList").then(value => setBalloonList(JSON.parse(value)));
@@ -77,9 +79,11 @@ export default function QRCodeScanner({ navigation }) {
             }
             delayLongPress={1000}
             onPress={() => [setBalloonListModalVisible(true), setScanned(true)]}
-            style={tw`flex flex-row items-center`}>
-            <Icon name="balloon" size={70} color="#FFF" />
-            <Text style={tw`text-white text-[30px]`}>{balloonList.length}/3</Text>
+          >
+            <View style={tw`flex flex-row items-center justify-center`}>
+              <Icon name="balloon" size={70} color="#FFF" />
+              <Text style={tw`text-white text-4xl`}>{balloonList.length}/3</Text>
+            </View>
           </TO>
         </View>
         <BarCodeScanner
@@ -87,8 +91,9 @@ export default function QRCodeScanner({ navigation }) {
           style={tw`absolute w-[125%] h-[125%]`}
           barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
         />
-        {(hasModalOpened && scanned) ? <View style={tw`absolute z-50 bg-black opacity-70 w-full h-full`} /> : <Icon name="scan-helper" color='#FFF' size={300} />}
+        {(hasModalOpened && scanned) ? <View style={tw`absolute z-50 bg-black opacity-60 w-full h-full`} /> : <Icon name="scan-helper" color='#FFF' size={300} />}
       </View>
+      <Tutorial modalVisible={modalTutorial} openBalloonList={()=> [setBalloonListModalVisible(true), setScanned(true)]} closeModal={() => [setScanned(false), setModalTutorial(false)]}/>
       <BalloonListModal setQRCodeData={setQRCodeData} setScannedTrue={() => setScanned(true)} setMessageModalVisible={setMessageModalVisible} balloonList={balloonList} closeModal={() => [setScanned(false), setBalloonListModalVisible(false)]} modalVisible={modalBalloonListVisible} />
       <MessageModal qrCodeData={qrCodeData} closeModal={() => [setScanned(false), setMessageModalVisible(false)]} modalVisible={modalMessageVisible} />
     </>
