@@ -14,22 +14,18 @@ import Tutorial from '../../components/Tutorial'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import tw from 'twrnc';
 
-export default function QRCodeScanner({ navigation }) {
-  const [hasPermission, setHasPermission] = useState(null);
+export default function QRCodeScanner({ navigation, route }) {
+  const [hasPermission] = useState(route.params.hasPermission);
   const [modalMessageVisible, setMessageModalVisible] = useState(false);
   const [modalBalloonListVisible, setBalloonListModalVisible] = useState(false);
   const [balloonList, setBalloonList] = useState([])
-  const [modalTutorial, setModalTutorial] = useState(balloonList?.length === 0)
+  const [modalTutorial, setModalTutorial] = useState(false)
   const [scanned, setScanned] = useState(false);
   const [qrCodeData, setQRCodeData] = useState(false);
   const hasModalOpened = modalMessageVisible || modalBalloonListVisible || modalTutorial
 
   useEffect(() => {
-    AsyncStorage.getItem("balloonList").then(value => value ? setBalloonList(JSON.parse(value)) : AsyncStorage.setItem("balloonList", JSON.stringify([]))).catch(() => AsyncStorage.setItem("balloonList", JSON.stringify([])));
-    (async () => {
-      const { status } = await BarCodeScanner?.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
-    })();
+    AsyncStorage.getItem("balloonList").then(value => value ? [setBalloonList(JSON.parse(value)), setModalTutorial(JSON.parse(value)?.length === 0)] : AsyncStorage.setItem("balloonList", JSON.stringify([]))).catch(() => AsyncStorage.setItem("balloonList", JSON.stringify([])));
   }, []);
 
   const balloonFound = (data) => {
