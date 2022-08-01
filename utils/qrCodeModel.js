@@ -4,7 +4,7 @@ let modelList =
       "id": 1,
       "title": "Oi oii gatinha ❤️",
       "message": "Finalmente chegou o dia 21/08, mas você ainda não, de 130km digamos que agora estamos à uns 11.5km um do outro, mas calma, é só o começo, agora vai naquela vendinha que eu sempre te compro doce aí no terminal e mostra essa foto pra moça da vendinha, de resto bem, você vai saber o que fazer, te amo <3",
-      "img_url": "https://lh3.googleusercontent.com/aLumiZMmIY93fziSPClifnk4buoBQRmRNUpPppEZ1I5SPi1i9dwbgbCFKvdzoXFTSiSsRRiAXWkWN-maQt8e=w1366-h575-rw"
+      "img_url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh6c35py0ha57O0MNsfFXQoav3Em7DrCoeEnjMAsgkQqRNGXkhAczGEjU_-4GWVmZRg9iP-KDRwtDUnSBTirYfzyr1Pszq0X8XBhFQbGFkAo0REYSVqlBAOluGVmJCy7K11Rn4k8Zz7sD0bu6w45_lIhtk6WMQJKuiQ8XFUpPjiT01cGk-HFb6KDgz-eA/w945-h600-p-k-no-nu/WhatsApp%20Image%202022-07-31%20at%208.10.13%20AM.jpeg"
     },
     {
       "id": 2,
