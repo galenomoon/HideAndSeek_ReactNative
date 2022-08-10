@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, TouchableOpacity as TO, Alert } from 'react-native';
+
+//utils
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import qrCodeModel from '../../utils/qrCodeModel'
 
 // barCode
 import { BarCodeScanner } from 'expo-barcode-scanner';
@@ -78,7 +81,7 @@ export default function QRCodeScanner({ navigation, route }) {
           >
             <View style={tw`flex flex-row items-center justify-center`}>
               <Icon name="balloon" size={70} color="#FFF" />
-              <Text style={tw`text-white text-4xl`}>{balloonList ? balloonList.length : 0}/3</Text>
+              <Text style={tw`text-white text-4xl`}>{balloonList ? balloonList.length : 0}/{qrCodeModel?.length}</Text>
             </View>
           </TO>
         </View>

@@ -1,5 +1,11 @@
 import { Modal, Text, Image, TouchableOpacity as TO, Linking, View, ScrollView } from "react-native";
+
+//utils
+import QRCodes from "../../utils/qrCodeModel";
+
+//styles
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import tw from "twrnc";
 
 const MessageModal = ({ modalVisible, closeModal, qrCodeData }) => {
@@ -8,10 +14,10 @@ const MessageModal = ({ modalVisible, closeModal, qrCodeData }) => {
     <Modal animationType="slide" transparent={true} visible={modalVisible}>
       <View style={tw`flex-1 justify-center items-center`}>
         <View style={tw`w-[100%] h-[100%] justify-center items-center rounded-2xl`}>
-          <View style={tw`bg-white w-[95%] h-[80%] items-center justify-center rounded-lg overflow-hidden pb-2`}>
+          <View style={tw`bg-white w-[95%] h-[95%] items-center rounded-2xl justify-center overflow-hidden pb-2`}>
             <View style={tw`flex-1 items-end justify-center w-full`}>
               <TO style={tw`z-53`} onPress={() => closeModal()}>
-                <Icon name="close" style={tw`m-1`} color={'#333'} size={40} />
+                <Icon name="close" style={tw`m-3`} color={'#333'} size={40} />
               </TO>
             </View>
             <View style={tw`flex-12 justify-center w-full`}>
@@ -23,7 +29,8 @@ const MessageModal = ({ modalVisible, closeModal, qrCodeData }) => {
                 <Text style={tw`text-xl`}>{qrCodeData?.message}</Text>
               </ScrollView>
               {qrCodeData?.btn_link &&
-                <TO onPress={() => Linking.openURL(qrCodeData?.btn_link)} style={tw`bg-blue-500 mx-2 py-3 px-5 rounded-lg items-center justify-center mt-5`}>
+                <TO onPress={() => Linking.openURL(qrCodeData?.btn_link)} style={tw`${qrCodeData?.id === QRCodes?.length ? 'bg-red-600' : 'bg-black'} flex mx-2 py-3 px-5 rounded-lg items-center justify-evenly mt-5`}>
+                  <Fontisto name={qrCodeData?.id === QRCodes?.length ? 'youtube-play' : 'uber'} color="#FFF" size={40} />
                   <Text style={tw`text-white font-bold text-xl`}>Clique Aqui</Text>
                 </TO>
               }
