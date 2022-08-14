@@ -31,14 +31,16 @@ const BalloonListModal = ({ modalVisible, closeModal, balloonList, setMessageMod
               </View>
             </View>
             :
-            <View style={tw`bg-white w-[90%] h-[20%] items-center justify-center rounded-lg overflow-hidden p-2`}>
+            <View style={tw`bg-white w-[90%] h-[48%] items-center justify-center rounded-lg overflow-hidden p-2`}>
               <View style={tw`flex-2 items-end justify-center w-full`}>
                 <TO style={tw`z-53`} onPress={() => closeModal()}>
                   <Icon name="close" style={tw`m-1`} color={'#333'} size={40} />
                 </TO>
               </View>
+              <Image style={tw`w-25 h-60`} source={require('../../assets/sad-astrunaut.png')} />
+
               <View style={tw`flex-5 justify-center items-center w-full`}>
-                <Text style={tw`text-2xl font-bold mx-2 mb-5 z-50 opacity-50 text-center`}>Você ainda não encontrou nenhum balão</Text>
+                <Text style={tw`text-2xl font-light mx-2 mb-5 z-50 opacity-50 text-center`}>Você ainda não encontrou nenhum balão :(</Text>
               </View>
             </View>
           }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity as TO, Alert } from 'react-native';
+import { Text, View, TouchableOpacity as TO, Alert, Image } from 'react-native';
 
 //utils
 import AsyncStorage from '@react-native-async-storage/async-storage';
