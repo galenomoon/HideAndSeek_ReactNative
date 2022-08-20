@@ -49,11 +49,10 @@ export default function QRCodeScanner({ navigation, route }) {
 
   const handleBarCodeScanned = ({ data }) => {
     let currentData = (data?.indexOf("http") && -1 && data?.indexOf('exp') && -1) && (JSON.parse(data))
-    currentData?.id ? balloonFound(currentData) : [Alert.alert(
-      "Essa mensagem não foi enviada pelo Seu Astronauta",
-      `Mas ele diz: ${data}`,
-      [{ text: "sair", onPress: () => setScanned(false) }]
-    ), setScanned(true)]
+    currentData?.id ?
+      balloonFound(currentData) :
+      [Alert.alert("Essa mensagem não foi enviada pelo Seu Astronauta", `Mas ele diz: ${data}`, [{ text: "sair", onPress: () => setScanned(false) }]),
+      setScanned(true)]
   };
 
   if (hasPermission === null) return <Text style={tw`font-bold text-white text-lg`}>Pedindo Permissão pra usar a câmera</Text>;
@@ -94,7 +93,7 @@ export default function QRCodeScanner({ navigation, route }) {
       </View>
       <Tutorial modalVisible={modalTutorial} openBalloonList={() => [setBalloonListModalVisible(true), setScanned(true)]} closeModal={() => [setScanned(false), setModalTutorial(false)]} />
       <BalloonListModal setQRCodeData={setQRCodeData} setScannedTrue={() => setScanned(true)} setMessageModalVisible={setMessageModalVisible} balloonList={balloonList} closeModal={() => [setScanned(false), setBalloonListModalVisible(false)]} modalVisible={modalBalloonListVisible} />
-      <MessageModal qrCodeData={qrCodeData} closeModal={() => [setScanned(false), setMessageModalVisible(false)]} modalVisible={modalMessageVisible} />
+      <MessageModal qrCodeId={qrCodeData} closeModal={() => [setScanned(false), setMessageModalVisible(false)]} modalVisible={modalMessageVisible} />
     </>
   );
 }

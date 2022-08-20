@@ -1,14 +1,23 @@
 import { Modal, Text, Image, TouchableOpacity as TO, View, FlatList } from "react-native";
+import React, { useEffect, useState } from "react";
+
+//utils
+import QRCodes from "../../utils/qrCodeModel";
+
+//styles
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import tw from "twrnc";
 
 const BalloonListModal = ({ modalVisible, closeModal, balloonList, setMessageModalVisible, setQRCodeData, setScannedTrue }) => {
 
   const itemList = (item) =>
-    <TO style={tw`flex-row items-center bg-gray-100 p-3 rounded-2xl mb-2`} onPress={() => [closeModal(), setMessageModalVisible(true), setQRCodeData(item), setScannedTrue()]}>
-      <Image style={tw`w-20 h-20 rounded-xl bg-purple-800`} source={{ uri: item?.img_url }} />
-      <Text style={tw`text-xl font-bold m-3 z-50`}>Balão #{item?.id}</Text>
-    </TO>
+    QRCodes.map((qr) => qr?.id === item?.id &&
+      <TO style={tw`flex-row items-center bg-gray-100 p-3 rounded-2xl mb-2`} onPress={() => [closeModal(), setMessageModalVisible(true), setQRCodeData(qr), setScannedTrue()]}>
+        <Image style={tw`w-20 h-20 rounded-xl bg-purple-800`} source={{ uri: qr?.img_url }} />
+        <Text style={tw`text-xl font-bold m-3 z-50`}>Balão #{qr?.id}</Text>
+      </TO>
+    )
+
 
   return (
     <Modal animationType="slide" transparent={true} visible={modalVisible}>

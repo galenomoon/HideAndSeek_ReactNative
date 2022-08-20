@@ -1,4 +1,5 @@
 import { Modal, Text, Image, TouchableOpacity as TO, Linking, View, ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
 
 //utils
 import QRCodes from "../../utils/qrCodeModel";
@@ -8,7 +9,12 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import tw from "twrnc";
 
-const MessageModal = ({ modalVisible, closeModal, qrCodeData }) => {
+const MessageModal = ({ modalVisible, closeModal, qrCodeId }) => {
+  const [qrCodeData, setQRCodeData] = useState({})
+
+  useEffect(() => {
+    QRCodes.map((qr) => qr?.id === qrCodeId?.id && setQRCodeData(qr))
+  }, [modalVisible])
 
   return (
     <Modal animationType="slide" transparent={true} visible={modalVisible}>
